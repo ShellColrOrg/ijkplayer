@@ -2,3 +2,4 @@ build
 ffmpeg-*
 libsoxr-*
 openssl-*
+libmp3lame-*

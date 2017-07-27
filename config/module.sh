@@ -1,1 +1,1 @@
-module-lite.sh
+module-lite-audio.sh
