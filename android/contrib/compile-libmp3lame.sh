@@ -69,13 +69,13 @@ case "$FF_TARGET" in
     ;;
     clean)
         echo_archs FF_ACT_ARCHS_64
+        rm -rf ./build/libmp3lame-*
         for ARCH in $FF_ACT_ARCHS_ALL
         do
             if [ -d libmp3lame-$ARCH ]; then
                 cd libmp3lame-$ARCH && rm config.h && cd -
             fi
         done
-        rm -rf ./build/libmp3lame-*
     ;;
     check)
         echo_archs FF_ACT_ARCHS_ALL

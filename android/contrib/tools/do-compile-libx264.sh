@@ -144,8 +144,10 @@ echo ""
 echo "--------------------"
 echo "[*] check libx264 env"
 echo "--------------------"
-#export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
-export CC="${FF_TOOLCHAIN_PATH}/bin/${FF_CROSS_PREFIX}-gcc"
+export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
+
+#export CC="${FF_TOOLCHAIN_PATH}/bin/${FF_CROSS_PREFIX}-gcc"
+
 export COMMON_FF_CFG_FLAGS=
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
@@ -157,7 +159,9 @@ FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-pic"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --disable-asm"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --disable-cli"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --host=$FF_HOST"
+FF_CFG_FLAGS="$FF_CFG_FLAGS --cross-prefix=${FF_CROSS_PREFIX}-"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_PREFIX"
+
 #FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_TOOLCHAIN_PATH/bin/$FF_CROSS_PREFIX-"
 #FF_CFG_FLAGS="$FF_CFG_FLAGS $FF_PLATFORM_CFG_FLAGS"
 
@@ -181,6 +185,7 @@ echo ""
 echo "--------------------"
 echo "[*] compile libx264"
 echo "--------------------"
+make
 make install
 
 #--------------------

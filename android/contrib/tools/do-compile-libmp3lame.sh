@@ -144,8 +144,10 @@ echo ""
 echo "--------------------"
 echo "[*] check libmp3lame env"
 echo "--------------------"
-#export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
+export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
+
 export CC="${FF_TOOLCHAIN_PATH}/bin/${FF_CROSS_PREFIX}-gcc"
+
 export COMMON_FF_CFG_FLAGS=
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
@@ -156,6 +158,7 @@ FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-static --disable-shared"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --with-pic"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --host=$FF_HOST"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_PREFIX"
+
 #FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_TOOLCHAIN_PATH/bin/$FF_CROSS_PREFIX-"
 #FF_CFG_FLAGS="$FF_CFG_FLAGS $FF_PLATFORM_CFG_FLAGS"
 
