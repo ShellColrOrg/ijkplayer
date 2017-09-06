@@ -69,12 +69,6 @@ case "$FF_TARGET" in
     ;;
     clean)
         echo_archs FF_ACT_ARCHS_64
-        for ARCH in $FF_ACT_ARCHS_ALL
-        do
-            if [ -d libx264-$ARCH ]; then
-                cd libx264-$ARCH && rm config.h && cd -
-            fi
-        done
         rm -rf ./build/libx264-*
     ;;
     check)

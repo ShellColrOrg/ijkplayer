@@ -7,36 +7,6 @@
 
 Video player based on [ffplay](http://ffmpeg.org)
 
-### Download
-
-- Android:
- - Gradle
-```
-# required
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
-dependencies {
-    # required, enough for most devices.
-    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.0'
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.0'
-
-    # Other ABIs: optional
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.0'
-    compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.0'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.0'
-    compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.0'
-
-    # ExoPlayer as IMediaPlayer: optional, experimental
-    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.0'
-}
-```
-- iOS
- - in coming...
-
 ### My Build Environment
 - Common
  - Mac OS X 10.11.5
@@ -93,36 +63,11 @@ brew install yasm
 
 # on Cygwin (unmaintained)
 # install git, make, yasm
-```
 
-- If you prefer more codec/format
-```
+#choose config
 cd config
 rm module.sh
-ln -s module-default.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
-```
-
-- If you prefer less codec/format for smaller binary size (include hevc function)
-```
-cd config
-rm module.sh
-ln -s module-lite-hevc.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
-```
-
-- If you prefer less codec/format for smaller binary size (by default)
-```
-cd config
-rm module.sh
-ln -s module-lite.sh module.sh
-cd android/contrib
-# cd ios
-sh compile-ffmpeg.sh clean
+ln -s module-moboo.sh module.sh
 ```
 
 - For Ubuntu/Debian users.
@@ -135,99 +80,31 @@ sudo dpkg-reconfigure dash
 
 ### Build Android
 ```
-git clone https://github.com/Bilibili/ijkplayer.git ijkplayer-android
-cd ijkplayer-android
-git checkout -B latest k0.8.0
+git clone https://github.com/ShellColrOrg/moboo-andriod-ijkplayer.git moboo-ijkplayer
+cd moboo-ijkplayer
 
-./init-android.sh
+./init-moboo-android.sh
 
 cd android/contrib
+
+#Build libmp3lame
+./compile-libmp3lame.sh clean
+./compile-libmp3lame.sh all
+
+#Build libx264
+./compile-libx264.sh clean
+./compile-libx264.sh all
+
+#Build ffmpeg
 ./compile-ffmpeg.sh clean
 ./compile-ffmpeg.sh all
 
-cd ..
-./compile-ijk.sh all
-
-# Android Studio:
-#     Open an existing Android Studio project
-#     Select android/ijkplayer/ and import
-#
-#     define ext block in your root build.gradle
-#     ext {
-#       compileSdkVersion = 23       // depending on your sdk version
-#       buildToolsVersion = "23.0.0" // depending on your build tools version
-#
-#       targetSdkVersion = 23        // depending on your sdk version
-#     }
-#
-# If you want to enable debugging ijkplayer(native modules) on Android Studio 2.2+: (experimental)
-#     sh android/patch-debugging-with-lldb.sh armv7a
-#     Install Android Studio 2.2(+)
-#     Preference -> Android SDK -> SDK Tools
-#     Select (LLDB, NDK, Android SDK Build-tools,Cmake) and install
-#     Open an existing Android Studio project
-#     Select android/ijkplayer
-#     Sync Project with Gradle Files
-#     Run -> Edit Configurations -> Debugger -> Symbol Directories
-#     Add "ijkplayer-armv7a/.externalNativeBuild/ndkBuild/release/obj/local/armeabi-v7a" to Symbol Directories
-#     Run -> Debug 'ijkplayer-example'
-#     if you want to reverse patches:
-#     sh patch-debugging-with-lldb.sh reverse armv7a
-#
-# Eclipse: (obselete)
-#     File -> New -> Project -> Android Project from Existing Code
-#     Select android/ and import all project
-#     Import appcompat-v7
-#     Import preference-v7
-#
-# Gradle
-#     cd ijkplayer
-#     gradle
-
+#Output dir
+android/contrib/build/ffmpeg-ARCH/output/libijkffmpeg.so
 ```
 
-
-### Build iOS
-```
-git clone https://github.com/Bilibili/ijkplayer.git ijkplayer-ios
-cd ijkplayer-ios
-git checkout -B latest k0.8.0
-
-./init-ios.sh
-
-cd ios
-./compile-ffmpeg.sh clean
-./compile-ffmpeg.sh all
-
-# Demo
-#     open ios/IJKMediaDemo/IJKMediaDemo.xcodeproj with Xcode
-# 
-# Import into Your own Application
-#     Select your project in Xcode.
-#     File -> Add Files to ... -> Select ios/IJKMediaPlayer/IJKMediaPlayer.xcodeproj
-#     Select your Application's target.
-#     Build Phases -> Target Dependencies -> Select IJKMediaFramework
-#     Build Phases -> Link Binary with Libraries -> Add:
-#         IJKMediaFramework.framework
-#
-#         AudioToolbox.framework
-#         AVFoundation.framework
-#         CoreGraphics.framework
-#         CoreMedia.framework
-#         CoreVideo.framework
-#         libbz2.tbd
-#         libz.tbd
-#         MediaPlayer.framework
-#         MobileCoreServices.framework
-#         OpenGLES.framework
-#         QuartzCore.framework
-#         UIKit.framework
-#         VideoToolbox.framework
-#
-#         ... (Maybe something else, if you get any link error)
-# 
-```
-
+### 源项目
+- https://github.com/Bilibili/ijkplayer
 
 ### Support (支持) ###
 - Please do not send e-mail to me. Public technical discussion on github is preferred.
