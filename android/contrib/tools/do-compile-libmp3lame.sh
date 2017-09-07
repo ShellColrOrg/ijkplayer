@@ -73,7 +73,7 @@ elif [ "$FF_ARCH" = "x86" ]; then
     FF_BUILD_NAME=libmp3lame-x86
     FF_SOURCE=$FF_BUILD_ROOT/$FF_BUILD_NAME
 	
-    FF_HOST=i686-linux
+    FF_HOST=x86-linux
     FF_CROSS_PREFIX=i686-linux-android
 	FF_TOOLCHAIN_NAME=x86-${FF_GCC_VER}
 
