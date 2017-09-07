@@ -72,13 +72,11 @@ elif [ "$FF_ARCH" = "x86" ]; then
     FF_BUILD_NAME=libx264-x86
     FF_SOURCE=$FF_BUILD_ROOT/$FF_BUILD_NAME
 	
-    FF_HOST=i686-linux
+    FF_HOST=x86-linux
     FF_CROSS_PREFIX=i686-linux-android
 	FF_TOOLCHAIN_NAME=x86-${FF_GCC_VER}
 
     FF_PLATFORM_CFG_FLAGS="android-x86"
-
-    FF_CFG_FLAGS="$FF_CFG_FLAGS no-asm"
 
 elif [ "$FF_ARCH" = "x86_64" ]; then
     FF_ANDROID_PLATFORM=android-21
@@ -146,6 +144,14 @@ echo "[*] check libx264 env"
 echo "--------------------"
 export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
 
+export CC=${FF_CROSS_PREFIX}-gcc
+export LD=${FF_CROSS_PREFIX}-ld
+export AR=${FF_CROSS_PREFIX}-ar
+export AS=${FF_CROSS_PREFIX}-as
+export NM=${FF_CROSS_PREFIX}-nm
+export STRIP=${FF_CROSS_PREFIX}-strip
+export RANLIB=${FF_CROSS_PREFIX}-ranlib
+
 export COMMON_FF_CFG_FLAGS=
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
@@ -157,7 +163,7 @@ FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-pic"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --disable-asm"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --disable-cli"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --host=$FF_HOST"
-FF_CFG_FLAGS="$FF_CFG_FLAGS --cross-prefix=${FF_CROSS_PREFIX}-"
+#FF_CFG_FLAGS="$FF_CFG_FLAGS --cross-prefix=${FF_CROSS_PREFIX}-"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_PREFIX"
 
 #--------------------

@@ -227,11 +227,14 @@ echo "--------------------"
 echo "[*] check ffmpeg env"
 echo "--------------------"
 export PATH=$FF_TOOLCHAIN_PATH/bin/:$PATH
-#export CC="ccache ${FF_CROSS_PREFIX}-gcc"
-export CC="${FF_CROSS_PREFIX}-gcc"
+
+export CC=${FF_CROSS_PREFIX}-gcc
 export LD=${FF_CROSS_PREFIX}-ld
 export AR=${FF_CROSS_PREFIX}-ar
+export AS=${FF_CROSS_PREFIX}-as
+export NM=${FF_CROSS_PREFIX}-nm
 export STRIP=${FF_CROSS_PREFIX}-strip
+export RANLIB=${FF_CROSS_PREFIX}-ranlib
 
 FF_CFLAGS="-O3 -Wall -pipe \
     -std=c99 \

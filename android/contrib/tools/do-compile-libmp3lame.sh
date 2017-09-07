@@ -156,9 +156,6 @@ export COMMON_FF_CFG_FLAGS=
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
 
-FF_CFLAGS="-O3 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
-
-
 #--------------------
 # Standard options:
 FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-static"
