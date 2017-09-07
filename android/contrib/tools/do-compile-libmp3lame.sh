@@ -54,17 +54,18 @@ if [ "$FF_ARCH" = "armv7a" ]; then
 	
     FF_HOST=arm-linux
     FF_CROSS_PREFIX=arm-linux-androideabi
-	FF_TOOLCHAIN_NAME=${FF_CROSS_PREFIX}-${FF_GCC_VER}
+    FF_TOOLCHAIN_NAME=${FF_CROSS_PREFIX}-${FF_GCC_VER}
 
     FF_PLATFORM_CFG_FLAGS="android-armv7"
 
+    FF_EXTRA_CFLAGS="$FF_EXTRA_CFLAGS -march=armv7-a"
 elif [ "$FF_ARCH" = "armv5" ]; then
     FF_BUILD_NAME=libmp3lame-armv5
     FF_SOURCE=$FF_BUILD_ROOT/$FF_BUILD_NAME
 	
     FF_HOST=arm-linux
     FF_CROSS_PREFIX=arm-linux-androideabi
-	FF_TOOLCHAIN_NAME=${FF_CROSS_PREFIX}-${FF_GCC_VER}
+    FF_TOOLCHAIN_NAME=${FF_CROSS_PREFIX}-${FF_GCC_VER}
 
     FF_PLATFORM_CFG_FLAGS="android"
 
@@ -115,7 +116,6 @@ FF_SYSROOT=$FF_TOOLCHAIN_PATH/sysroot
 FF_PREFIX=$FF_BUILD_ROOT/build/$FF_BUILD_NAME/output
 
 mkdir -p $FF_PREFIX
-# mkdir -p $FF_SYSROOT
 
 
 #--------------------
@@ -146,21 +146,28 @@ echo "[*] check libmp3lame env"
 echo "--------------------"
 export PATH=$FF_TOOLCHAIN_PATH/bin:$PATH
 
-export CC="${FF_TOOLCHAIN_PATH}/bin/${FF_CROSS_PREFIX}-gcc"
+export CC=${FF_CROSS_PREFIX}-gcc
+export LD=${FF_CROSS_PREFIX}-ld
+export AR=${FF_CROSS_PREFIX}-ar
+export AS=${FF_CROSS_PREFIX}-as
+export NM=${FF_CROSS_PREFIX}-nm
+export STRIP=${FF_CROSS_PREFIX}-strip
+export RANLIB=${FF_CROSS_PREFIX}-ranlib
 
 export COMMON_FF_CFG_FLAGS=
 
 FF_CFG_FLAGS="$FF_CFG_FLAGS $COMMON_FF_CFG_FLAGS"
 
+FF_CFLAGS="-O3 -march=armv7-a -mfloat-abi=softfp -mfpu=vfpv3-d16"
+
+
 #--------------------
 # Standard options:
-FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-static --disable-shared"
-FF_CFG_FLAGS="$FF_CFG_FLAGS --with-pic"
+FF_CFG_FLAGS="$FF_CFG_FLAGS --enable-static"
+FF_CFG_FLAGS="$FF_CFG_FLAGS --disable-shared"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --host=$FF_HOST"
 FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_PREFIX"
 
-#FF_CFG_FLAGS="$FF_CFG_FLAGS --prefix=$FF_TOOLCHAIN_PATH/bin/$FF_CROSS_PREFIX-"
-#FF_CFG_FLAGS="$FF_CFG_FLAGS $FF_PLATFORM_CFG_FLAGS"
 
 #--------------------
 echo ""
@@ -168,21 +175,22 @@ echo "--------------------"
 echo "[*] configurate libmp3lame"
 echo "--------------------"
 cd $FF_SOURCE
-#if [ -f "./Makefile" ]; then
-#    echo 'reuse configure'
-#else
+if [ -f “./config.h” ]; then
+    echo “reuse configure”
+else
     echo "./configure $FF_CFG_FLAGS"
     ./configure $FF_CFG_FLAGS
-#        --extra-cflags="$FF_CFLAGS $FF_EXTRA_CFLAGS" \
-#        --extra-ldflags="$FF_EXTRA_LDFLAGS"
-#fi
+    make clean
+fi
 
 #--------------------
 echo ""
 echo "--------------------"
 echo "[*] compile libmp3lame"
 echo "--------------------"
+make
 make install
+
 
 #--------------------
 echo ""
